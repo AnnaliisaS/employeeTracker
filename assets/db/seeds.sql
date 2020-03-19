@@ -7,7 +7,7 @@ VALUES ("John", "Doe", "1", "2"), ("Sarah", "Connor", "2", "null"),
 INSERT INTO departments (name)
 VALUES ("Sales"), ("Legal"),("Engineering"),("Accounting"),("HR");
 
-INSERT INTO roles (title, salary, department)
+INSERT INTO roles (title, salary, department_id)
 VALUES ("Salesperson", "60000", "1"),("Sales Lead", "70000", "1"),("Lead Engineer", "150000", "3"),("Software Engineer", "120000", "3"),
 ("Lawyer", "190000", "2"),("Accountant", "125000", "4"),("Human Resources Specialist", "80000", "5"),("HR Lead", "130000", "5");
 

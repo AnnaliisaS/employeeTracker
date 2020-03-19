@@ -140,7 +140,7 @@ const addEmployee = async () => {
 };
 
 // Add Role
-const addRole = () => {
+const addRole = async () => {
 const query = connection.query('',
 (err,res) =>{
     if (err) throw err;
@@ -242,8 +242,34 @@ const viewByDept = async function(){
 }
 
 // Update Employee Role
-const updateRole = () => {
-const query = connection.query('',
+const updateRole = async () => {
+  let r = await inquirer.prompt([
+    {
+        type: 'input',
+        message: 'Employee first name: ',
+        name: 'employeefn'
+    },
+    {
+      type: 'input',
+      message: 'Employee last name: ',
+      name: 'employeeln'
+    },
+    {
+        type: 'input',
+        message: 'Employee new role: ',
+        name: 'role'
+    },
+    {
+        type: 'input',
+        message: 'Employee department: ',
+        name: 'department'
+    },
+]);
+
+const query = connection.query(`UPDATE employees INNER JOIN roles ON employees.role_id = roles.id
+SET role_id = (SELECT id FROM roles WHERE title = ? AND roles.department_id = (SELECT id FROM departments WHERE name = ?))
+WHERE (employees.first_name = ? AND employees.last_name = ?);`,
+[r.role, r.department, r.employeefn, r.employeeln],
 (err,res) =>{
     if (err) throw err;
     console.table(res);

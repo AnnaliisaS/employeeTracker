@@ -141,7 +141,26 @@ const addEmployee = async () => {
 
 // Add Role
 const addRole = async () => {
-const query = connection.query('',
+  let r = await inquirer.prompt([
+    {
+    type: 'input',
+    message: 'Role Title: ',
+    name: 'title'
+    },
+    {
+    type: 'input',
+    message: 'Salary: ',
+    name: 'salary'
+    },
+    {
+    type: 'input',
+    message: 'Department: ',
+    name: 'department'
+    }
+]);
+const query = connection.query(`INSERT INTO roles(title, salary, department_id) VALUES
+(?,?, (SELECT id FROM departments WHERE name = ?));`,
+[r.title, r.salary, r.department],
 (err,res) =>{
     if (err) throw err;
     console.table(res);

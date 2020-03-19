@@ -296,12 +296,5 @@ WHERE (employees.first_name = ? AND employees.last_name = ?);`,
 });
 };
 
-// const viewByManager = () =>{
-//   const query = connection.query(`SELECT e.first_name AS fn, e.last_name AS ln, m.first_name AS manager_fn, m.last_name AS manager_ln FROM employees AS e 
-//   LEFT JOIN employees AS m ON e.manager_id = m.id ORDER BY m.id`;
-//   (err,res) =>{
-//       if (err) throw err;
-//       console.table(res);
-//       menuTasks();
-//   });
-// };
+//will finish bonus material and refining what I've done later
+

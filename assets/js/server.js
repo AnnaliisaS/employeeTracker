@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
     password: "Vortexringstate2!",
     database: "companyDB" 
 });
-const main = async() =>{
+const tracker = async() =>{
 connection.connect(function(err) {
     if (err) {
       console.error("Having a Malfunction: " + err.stack);
@@ -24,7 +24,7 @@ connection.connect(function(err) {
   });
 }
 
- main();
+ tracker();
 
 // Initial User Interface
 // =============================================================================
@@ -97,18 +97,18 @@ const menuTasks = async () => {
 
 // Add Employee
 const addEmployee = () =>{
-   const query = '';
-   connection.query(query, (err,res) =>{
-       if (err) throw err;
-       console.table(res);
-       menuTasks();
-   });
+  const query = connection.query('',
+  (err,res) =>{
+      if (err) throw err;
+      console.table(res);
+      menuTasks();
+  });
 };
 
 // Add Role
 const addRole = () => {
-const query = '';
-connection.query(query, (err,res) =>{
+const query = connection.query('',
+(err,res) =>{
     if (err) throw err;
     console.table(res);
     menuTasks();
@@ -117,8 +117,8 @@ connection.query(query, (err,res) =>{
 
 // Add Department
 const addDept = () => {
-const query = '';
-connection.query(query, (err,res) =>{
+const query = connection.query('',
+(err,res) =>{
     if (err) throw err;
     console.table(res);
     menuTasks();
@@ -140,8 +140,8 @@ const viewEmployees = () => {
 
 // View All Departments
 const viewDepts = () => {
-const query = '';
-connection.query(query, (err,res) =>{
+const query = connection.query(' SELECT id, name FROM departments',
+(err,res) =>{
     if (err) throw err;
     console.table(res);
     menuTasks();
@@ -180,12 +180,10 @@ const viewByDept = async function(){
   });
 }
 
-
-
 // Update Employee Role
 const updateRole = () => {
-const query = '';
-connection.query(query, (err,res) =>{
+const query = connection.query('',
+(err,res) =>{
     if (err) throw err;
     console.table(res);
     menuTasks();

@@ -39,7 +39,7 @@ const menuChoices = [
   // 'Update Employee Manager',
   'View All Departments',
   'Add Department',
-  // 'Remove Department',
+  'Remove Department',
   'Add Role',
   'Exit'
   ];
@@ -82,9 +82,9 @@ const menuTasks = async () => {
     case 'Add Department':
       addDept();
       break;
-    // case 'Remove Department':
-    //   removeDept();
-    //   break;
+    case 'Remove Department':
+      removeDept();
+      break;
     case 'Add Role':
       addRole();
       break;
@@ -96,7 +96,7 @@ const menuTasks = async () => {
 
 
 // Add Employee
-const addEmployee = () =>{
+const addEmployee = () => {
   const query = connection.query('',
   (err,res) =>{
       if (err) throw err;
@@ -126,10 +126,29 @@ const addDept = async() => {
   ]);      
 const query = connection.query(`INSERT INTO departments(name) VALUES (?);`,
 a.department,       
-(err,res) =>{
+(err,res) => {
     if (err) throw err;
     console.table(res);
     menuTasks();
+});
+};
+
+// Remove Department
+const removeDept = async () => {
+  let r = await inquirer.prompt([
+      {
+          type: 'input',
+          message: `Department name to remove:`,
+          name: 'department'
+      }
+  ]);
+const query = connection.query(`DELETE departments FROM departments
+WHERE name = ?;`,
+r.department,
+(err,res) => {
+  if (err) throw err;
+  console.table(res);
+  menuTasks();
 });
 };
   
@@ -179,7 +198,7 @@ const viewByDept = async function(){
   const query = connection.query(`SELECT employees.first_name, employees.last_name, roles.title, roles.salary, departments.name FROM employees
   INNER JOIN roles ON employees.role_id=roles.id 
   INNER JOIN departments ON roles.department_id = departments.id 
-  WHERE departments.name=?;`,
+  WHERE departments.name = ?;`,
   department,
   (err, res) => {
       if (err) throw err;

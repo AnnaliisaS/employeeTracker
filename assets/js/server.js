@@ -26,7 +26,7 @@ connection.connect(function(err) {
 
  tracker();
 
-// Initial User Interface
+// Initial User Interface, choices/switch cases commented out are for future development 
 // =============================================================================
 const menuChoices = [                 
   'View All Employees',
@@ -116,8 +116,16 @@ const query = connection.query('',
 };
 
 // Add Department
-const addDept = () => {
-const query = connection.query('',
+const addDept = async() => {
+  let a = await inquirer.prompt([
+    {
+        type: 'input',
+        message: `Department name to add:`,
+        name: 'department'
+    }
+  ]);      
+const query = connection.query(`INSERT INTO departments(name) VALUES (?);`,
+a.department,       
 (err,res) =>{
     if (err) throw err;
     console.table(res);
@@ -130,7 +138,7 @@ const viewEmployees = () => {
   const query = connection.query(`SELECT employees.id, employees.first_name, employees.last_name, 
   roles.salary, roles.title AS roles, employees.manager_id, departments.name AS department FROM employees
   INNER JOIN roles ON employees.role_id=roles.id 
-  INNER JOIN departments ON roles.department_id=departments.id`,
+  INNER JOIN departments ON roles.department_id = departments.id`,
   (err, res) => {
       if (err) throw err;
       console.table(res);
@@ -170,7 +178,7 @@ const viewByDept = async function(){
   let department = d.department;
   const query = connection.query(`SELECT employees.first_name, employees.last_name, roles.title, roles.salary, departments.name FROM employees
   INNER JOIN roles ON employees.role_id=roles.id 
-  INNER JOIN departments ON roles.department_id=departments.id 
+  INNER JOIN departments ON roles.department_id = departments.id 
   WHERE departments.name=?;`,
   department,
   (err, res) => {
@@ -191,9 +199,9 @@ const query = connection.query('',
 };
 
 // const viewByManager = () =>{
-//   const query = `SELECT e.first_name AS fn, e.last_name AS ln, m.first_name AS manager_fn, m.last_name AS manager_ln FROM employees AS e 
+//   const query = connection.query(`SELECT e.first_name AS fn, e.last_name AS ln, m.first_name AS manager_fn, m.last_name AS manager_ln FROM employees AS e 
 //   LEFT JOIN employees AS m ON e.manager_id = m.id ORDER BY m.id`;
-//   connection.query(query, (err,res) =>{
+//   (err,res) =>{
 //       if (err) throw err;
 //       console.table(res);
 //       menuTasks();

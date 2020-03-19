@@ -128,7 +128,7 @@ connection.query(query, (err,res) =>{
 // View All Employees 
 const viewEmployees = () => {
   const query = connection.query(`SELECT employees.id, employees.first_name, employees.last_name, 
-  roles.salary, roles.title AS roles, employees.manager_id, departments.name AS departments FROM employees
+  roles.salary, roles.title AS roles, employees.manager_id, departments.name AS department FROM employees
   INNER JOIN roles ON employees.role_id=roles.id 
   INNER JOIN departments ON roles.department_id=departments.id`,
   (err, res) => {
@@ -150,8 +150,9 @@ connection.query(query, (err,res) =>{
 
 // View All Roles
 const viewRoles = () => {
-const query = '';
-connection.query(query, (err,res) =>{
+const query = connection.query(`SELECT roles.title AS role, roles.salary, departments.name AS department FROM roles
+INNER JOIN departments ON departments.id = roles.department_id;`,
+(err,res) =>{
     if (err) throw err;
     console.table(res);
     menuTasks();

@@ -95,10 +95,44 @@ const menuTasks = async () => {
 };
 
 
+// Sql query functions
+// =============================================================================
+
 // Add Employee
-const addEmployee = () => {
-  const query = connection.query('',
-  (err,res) =>{
+const addEmployee = async () => {
+  let a = await inquirer.prompt([
+    {
+    type: 'input',
+    message: 'Employee First Name: ' ,
+    name: 'employeefn'
+    },
+    {
+    type: 'input',
+    message: 'Employee Last Name: ',
+    name: 'employeeln'
+    },
+    {
+    type: 'input',
+    message: 'Employee Role: ' ,
+    name: 'role'
+    },
+    {
+    type: 'input',
+    message: 'Employee Department: ' ,
+    name: 'department'
+    },
+    // {
+    // type: 'input',
+    // message: 'Employee Manager' ,
+    // name: 'manager'
+    // },
+  ]);
+  
+  const query = connection.query(`INSERT INTO employees(first_name, last_name, role_id) VALUES (?, ?,
+    (SELECT id FROM roles WHERE roles.title = ? AND roles.department_id = (SELECT id FROM departments WHERE 
+      departments.name = ?)));`,
+      [a.employeefn, a.employeeln, a.role, a.department], /* will add functionality to add manager later */
+  (err,res) => {
       if (err) throw err;
       console.table(res);
       menuTasks();
